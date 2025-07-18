@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
+import Image from "next/image";
 
 export default async function Home() {
   const { userId } = await auth();
@@ -23,9 +24,11 @@ export default async function Home() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
               <div className="rounded-xl bg-gray-50 p-2">
-                <img
+                <Image
                   src="https://s.tmimgcdn.com/scr/1200x750/352100/mindsol-logo-design-brain-ai-logo_352161-original.jpg"
                   alt="TherapEase Logo"
+                  width={32}
+                  height={32}
                   className="h-8 w-8 object-contain rounded-lg"
                 />
               </div>
@@ -74,9 +77,11 @@ export default async function Home() {
           <div className="text-center max-w-4xl mx-auto">
             <div className="flex justify-center mb-8">
               <div className="rounded-2xl bg-gray-50 p-8 shadow-sm">
-                <img
+                <Image
                   src="https://s.tmimgcdn.com/scr/1200x750/352100/mindsol-logo-design-brain-ai-logo_352161-original.jpg"
                   alt="TherapEase Logo"
+                  width={80}
+                  height={80}
                   className="h-20 w-20 object-contain rounded-xl mx-auto"
                 />
               </div>
@@ -290,9 +295,11 @@ export default async function Home() {
             <div className="bg-gray-50 rounded-2xl p-8 lg:p-12">
               <div className="text-center">
                 <div className="bg-gray-100 rounded-full p-6 w-fit mx-auto mb-6">
-                  <img
+                  <Image
                     src="https://s.tmimgcdn.com/scr/1200x750/352100/mindsol-logo-design-brain-ai-logo_352161-original.jpg"
                     alt="TherapEase Logo"
+                    width={64}
+                    height={64}
                     className="h-16 w-16 object-contain rounded-xl"
                   />
                 </div>
@@ -331,9 +338,11 @@ export default async function Home() {
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="rounded-xl bg-gray-100 p-2">
-                <img
+                <Image
                   src="https://s.tmimgcdn.com/scr/1200x750/352100/mindsol-logo-design-brain-ai-logo_352161-original.jpg"
                   alt="TherapEase Logo"
+                  width={32}
+                  height={32}
                   className="h-8 w-8 object-contain rounded-lg"
                 />
               </div>
