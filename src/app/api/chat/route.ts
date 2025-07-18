@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateResponse, analyzeSentiment } from "@/lib/gemini";
 
+interface ChatMessage {
+  isUser: boolean;
+  text: string;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { message, chatHistory } = await request.json();
@@ -17,7 +22,10 @@ export async function POST(request: NextRequest) {
     if (chatHistory && chatHistory.length > 0) {
       const recentMessages = chatHistory.slice(-3); // Last 3 messages for context
       const context = recentMessages
-        .map((msg: any) => `${msg.isUser ? "User" : "TherapEase"}: ${msg.text}`)
+        .map(
+          (msg: ChatMessage) =>
+            `${msg.isUser ? "User" : "TherapEase"}: ${msg.text}`
+        )
         .join("\n");
 
       contextualMessage = `Previous conversation context:\n${context}\n\nCurrent message: ${message}`;

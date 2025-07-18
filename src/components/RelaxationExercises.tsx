@@ -266,7 +266,7 @@ export default function RelaxationExercises() {
             <h4 className="font-medium text-gray-800">Practice</h4>
             <ul className="text-sm text-gray-600 space-y-1">
               <li>• Practice regularly for best results</li>
-              <li>• Don't worry about doing it perfectly</li>
+              <li>• Don&apos;t worry about doing it perfectly</li>
               <li>• Be patient with yourself</li>
             </ul>
           </div>

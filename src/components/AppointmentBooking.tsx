@@ -353,8 +353,8 @@ export default function AppointmentBooking() {
           Crisis Support
         </h3>
         <p className="text-sm text-red-800 mb-4">
-          If you're experiencing a mental health crisis or having thoughts of
-          self-harm, please seek immediate help:
+          If you&apos;re experiencing a mental health crisis or having thoughts
+          of self-harm, please seek immediate help:
         </p>
         <div className="flex flex-wrap gap-4 text-sm">
           <div className="flex items-center gap-2">

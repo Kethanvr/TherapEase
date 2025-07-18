@@ -120,7 +120,7 @@ export default function MedicationReminders() {
       {/* Today's Schedule */}
       <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Today's Schedule
+          Today&apos;s Schedule
         </h3>
         <div className="space-y-3">
           {medicationReminders.map((medication) => (
