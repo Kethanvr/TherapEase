@@ -356,7 +356,7 @@ export default async function Home() {
               </div>
             </div>
             <p className="text-sm text-gray-500 mb-2">
-              © 2024 TherapEase. Supporting your mental health journey with
+              © 2025 TherapEase. Supporting your mental health journey with
               compassionate AI.
             </p>
             <p className="text-xs text-gray-400">
