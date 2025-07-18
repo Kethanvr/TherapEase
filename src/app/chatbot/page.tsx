@@ -1,19 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import {
-  MessageCircle,
-  TrendingUp,
-  Calendar,
-  Pill,
-  Headphones,
+import { 
+  MessageCircle, 
+  TrendingUp, 
+  Calendar, 
+  Pill, 
+  Headphones, 
   Home,
-  Send,
-  User,
-  Bot,
-  Smile,
-  Meh,
-  Frown,
+  Brain
 } from "lucide-react";
 import Link from "next/link";
 
@@ -24,30 +19,30 @@ import RelaxationExercises from "@/components/RelaxationExercises";
 import AppointmentBooking from "@/components/AppointmentBooking";
 import MedicationReminders from "@/components/MedicationReminders";
 
-type ActiveTab = "chat" | "mood" | "relaxation" | "appointments" | "medication";
+type ActiveTab = 'chat' | 'mood' | 'relaxation' | 'appointments' | 'medication';
 
 export default function ChatbotPage() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>("chat");
+  const [activeTab, setActiveTab] = useState<ActiveTab>('chat');
 
   const navigationItems = [
-    { id: "chat", label: "AI Chat", icon: MessageCircle },
-    { id: "mood", label: "Mood Tracker", icon: TrendingUp },
-    { id: "relaxation", label: "Relaxation", icon: Headphones },
-    { id: "appointments", label: "Appointments", icon: Calendar },
-    { id: "medication", label: "Medication", icon: Pill },
+    { id: 'chat', label: 'AI Chat', icon: MessageCircle },
+    { id: 'mood', label: 'Mood Tracker', icon: TrendingUp },
+    { id: 'relaxation', label: 'Relaxation', icon: Headphones },
+    { id: 'appointments', label: 'Appointments', icon: Calendar },
+    { id: 'medication', label: 'Medication', icon: Pill },
   ];
 
   const renderContent = () => {
     switch (activeTab) {
-      case "chat":
+      case 'chat':
         return <ChatInterface />;
-      case "mood":
+      case 'mood':
         return <MoodTracker />;
-      case "relaxation":
+      case 'relaxation':
         return <RelaxationExercises />;
-      case "appointments":
+      case 'appointments':
         return <AppointmentBooking />;
-      case "medication":
+      case 'medication':
         return <MedicationReminders />;
       default:
         return <ChatInterface />;
@@ -55,20 +50,20 @@ export default function ChatbotPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50">
+    <div className="min-h-screen bg-gray-50">
       <div className="flex h-screen">
         {/* Sidebar */}
-        <div className="w-64 bg-white/80 backdrop-blur-sm border-r border-gray-200 flex flex-col">
+        <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
           {/* Header */}
           <div className="p-6 border-b border-gray-200">
-            <Link
-              href="/"
-              className="flex items-center gap-3 text-xl font-bold text-gray-900"
-            >
-              <div className="rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 p-2">
-                <MessageCircle className="h-6 w-6 text-white" />
+            <Link href="/" className="flex items-center gap-3 text-xl font-bold text-gray-900">
+              <div className="rounded-xl bg-blue-600 p-2">
+                <Brain className="h-6 w-6 text-white" />
               </div>
-              MindfulAI
+              <div>
+                <h1 className="font-baloo-bhai text-lg font-bold text-gray-900">TherapEase</h1>
+                <p className="text-xs text-gray-500 -mt-1">AI Mental Health Support</p>
+              </div>
             </Link>
           </div>
 
@@ -82,8 +77,8 @@ export default function ChatbotPage() {
                   onClick={() => setActiveTab(item.id as ActiveTab)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
                     activeTab === item.id
-                      ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg"
-                      : "text-gray-700 hover:bg-gray-100"
+                      ? 'bg-blue-600 text-white shadow-sm'
+                      : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
                   <Icon className="h-5 w-5" />
@@ -108,14 +103,16 @@ export default function ChatbotPage() {
         {/* Main Content */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Header */}
-          <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 px-6 py-4">
+          <header className="bg-white border-b border-gray-200 px-6 py-4">
             <h1 className="text-2xl font-bold text-gray-900">
-              {navigationItems.find((item) => item.id === activeTab)?.label}
+              {navigationItems.find(item => item.id === activeTab)?.label}
             </h1>
           </header>
 
           {/* Content */}
-          <main className="flex-1 overflow-auto p-6">{renderContent()}</main>
+          <main className="flex-1 overflow-auto p-6 bg-gray-50">
+            {renderContent()}
+          </main>
         </div>
       </div>
     </div>

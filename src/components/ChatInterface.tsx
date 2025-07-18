@@ -19,7 +19,7 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Hello! I'm your mental health support companion. I'm here to listen, provide support, and help you navigate your feelings. How are you feeling today?",
+      text: "Hello! I'm TherapEase, your mental health support companion. I'm here to listen, provide support, and help you navigate your feelings. How are you feeling today?",
       isUser: false,
       timestamp: new Date(),
     },
@@ -112,7 +112,7 @@ export default function ChatInterface() {
   return (
     <div className="flex flex-col h-full max-w-4xl mx-auto">
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto space-y-4 p-4 bg-white/50 backdrop-blur-sm rounded-2xl border border-gray-200">
+      <div className="flex-1 overflow-y-auto space-y-4 p-4 bg-white rounded-xl border border-gray-200">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -121,21 +121,25 @@ export default function ChatInterface() {
             }`}
           >
             {!message.isUser && (
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
                 <Bot className="h-4 w-4 text-white" />
               </div>
             )}
 
             <div
-              className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${
+              className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
                 message.isUser
-                  ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white"
-                  : "bg-white border border-gray-200 text-gray-900"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-900"
               }`}
             >
               <p className="text-sm leading-relaxed">{message.text}</p>
               <div className="flex items-center gap-2 mt-2">
-                <span className="text-xs opacity-70">
+                <span
+                  className={`text-xs ${
+                    message.isUser ? "text-blue-100" : "text-gray-500"
+                  }`}
+                >
                   {message.timestamp.toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -143,9 +147,11 @@ export default function ChatInterface() {
                 </span>
                 {message.sentiment && (
                   <span
-                    className={`text-xs ${getSentimentColor(
-                      message.sentiment.sentiment
-                    )}`}
+                    className={`text-xs ${
+                      message.isUser
+                        ? "text-blue-100"
+                        : getSentimentColor(message.sentiment.sentiment)
+                    }`}
                   >
                     • {message.sentiment.emotion}
                   </span>
@@ -163,10 +169,10 @@ export default function ChatInterface() {
 
         {isLoading && (
           <div className="flex gap-3 justify-start">
-            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
               <Bot className="h-4 w-4 text-white" />
             </div>
-            <div className="bg-white border border-gray-200 text-gray-900 px-4 py-2 rounded-2xl">
+            <div className="bg-gray-100 text-gray-900 px-4 py-3 rounded-2xl">
               <div className="flex items-center gap-2">
                 <Loader2 className="h-4 w-4 animate-spin" />
                 <span className="text-sm">Thinking...</span>
@@ -179,21 +185,21 @@ export default function ChatInterface() {
       </div>
 
       {/* Input */}
-      <div className="mt-4 p-4 bg-white/50 backdrop-blur-sm rounded-2xl border border-gray-200">
+      <div className="mt-4 p-4 bg-white rounded-xl border border-gray-200">
         <div className="flex gap-2">
           <textarea
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Share what's on your mind..."
-            className="flex-1 px-4 py-2 bg-white border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             rows={1}
             disabled={isLoading}
           />
           <button
             onClick={handleSendMessage}
             disabled={!inputText.trim() || isLoading}
-            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Send className="h-4 w-4" />
           </button>
