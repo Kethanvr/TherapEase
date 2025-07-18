@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 // Components
 import ChatInterface from "@/components/ChatInterface";
@@ -81,9 +82,11 @@ export default function ChatbotPage() {
               className="flex items-center gap-3 text-xl font-bold text-gray-900"
             >
               <div className="rounded-xl bg-gray-50 p-2">
-                <img
+                <Image
                   src="https://s.tmimgcdn.com/scr/1200x750/352100/mindsol-logo-design-brain-ai-logo_352161-original.jpg"
                   alt="TherapEase Logo"
+                  width={32}
+                  height={32}
                   className="h-8 w-8 object-contain rounded-lg"
                 />
               </div>
