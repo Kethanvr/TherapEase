@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Poppins, Baloo_Bhai_2 } from "next/font/google";
-import { ClerkProvider } from '@clerk/nextjs';
 import "./globals.css";
 
 const poppins = Poppins({
@@ -16,23 +16,35 @@ const balooBhai = Baloo_Bhai_2({
 });
 
 export const metadata: Metadata = {
-  title: "TherapEase - AI Chatbot for Mental Health Support",
-  description: "TherapEase AI chatbot for mental health support. Get empathetic assistance, mood tracking, and personalized wellness recommendations.",
-  keywords: ["mental health", "AI chatbot", "wellness", "mood tracking", "therapy", "mindfulness", "TherapEase"],
-  authors: [{ name: "TherapEase Team" }],
-  viewport: "width=device-width, initial-scale=1",
+  title: "TherapEase - AI Mental Health Support",
+  description:
+    "AI chatbot for mental health support. Get personalized mental health guidance, mood tracking, and wellness resources.",
+  keywords: [
+    "mental health",
+    "AI chatbot",
+    "therapy",
+    "wellness",
+    "mood tracking",
+  ],
+  authors: [{ name: "TherapEase" }],
+  openGraph: {
+    title: "TherapEase - AI Mental Health Support",
+    description:
+      "AI chatbot for mental health support. Get personalized mental health guidance, mood tracking, and wellness resources.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <ClerkProvider>
-      <html lang="en" className="scroll-smooth">
+      <html lang="en">
         <body
-          className={`${poppins.variable} ${balooBhai.variable} font-poppins antialiased bg-gray-50 min-h-screen text-gray-900`}
+          className={`${poppins.variable} ${balooBhai.variable} font-poppins antialiased`}
         >
           {children}
         </body>

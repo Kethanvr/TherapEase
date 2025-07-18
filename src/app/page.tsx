@@ -10,8 +10,12 @@ import {
   ArrowRight,
   Check,
 } from "lucide-react";
+import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
-export default function Home() {
+export default async function Home() {
+  const { userId } = await auth();
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -19,8 +23,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-blue-600 p-2">
-                <Brain className="h-6 w-6 text-white" />
+              <div className="rounded-xl bg-gray-50 p-2">
+                <img
+                  src="https://s.tmimgcdn.com/scr/1200x750/352100/mindsol-logo-design-brain-ai-logo_352161-original.jpg"
+                  alt="TherapEase Logo"
+                  className="h-8 w-8 object-contain rounded-lg"
+                />
               </div>
               <div>
                 <h1 className="font-baloo-bhai text-xl font-bold text-gray-900">
@@ -31,12 +39,32 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <Link
-              href="/chatbot"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
-            >
-              Get Started
-            </Link>
+            <div className="flex items-center gap-4">
+              {userId ? (
+                <div className="flex items-center gap-4">
+                  <Link
+                    href="/chatbot"
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  >
+                    Dashboard
+                  </Link>
+                  <UserButton afterSignOutUrl="/" />
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <SignInButton mode="modal">
+                    <button className="text-gray-600 hover:text-gray-900 px-4 py-2 font-medium">
+                      Sign In
+                    </button>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                      Get Started
+                    </button>
+                  </SignUpButton>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
@@ -46,8 +74,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
             <div className="flex justify-center mb-8">
-              <div className="rounded-2xl bg-blue-50 p-6">
-                <Brain className="h-16 w-16 text-blue-600" />
+              <div className="rounded-2xl bg-gray-50 p-8 shadow-sm">
+                <img
+                  src="https://s.tmimgcdn.com/scr/1200x750/352100/mindsol-logo-design-brain-ai-logo_352161-original.jpg"
+                  alt="TherapEase Logo"
+                  className="h-20 w-20 object-contain rounded-xl mx-auto"
+                />
               </div>
             </div>
             <h1 className="font-baloo-bhai text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
@@ -62,13 +94,22 @@ export default function Home() {
               designed to help you thrive.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/chatbot"
-                className="bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition-colors font-semibold text-lg flex items-center gap-2 shadow-lg hover:shadow-xl"
-              >
-                Start Chatting
-                <ArrowRight className="h-5 w-5" />
-              </Link>
+              {userId ? (
+                <Link
+                  href="/chatbot"
+                  className="bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition-colors font-semibold text-lg flex items-center gap-2 shadow-lg hover:shadow-xl"
+                >
+                  Continue to Dashboard
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+              ) : (
+                <SignUpButton mode="modal">
+                  <button className="bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition-colors font-semibold text-lg flex items-center gap-2 shadow-lg hover:shadow-xl">
+                    Start Chatting
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </SignUpButton>
+              )}
               <Link
                 href="#features"
                 className="text-gray-600 hover:text-gray-900 transition-colors font-medium text-lg"
@@ -249,8 +290,12 @@ export default function Home() {
             </div>
             <div className="bg-gray-50 rounded-2xl p-8 lg:p-12">
               <div className="text-center">
-                <div className="bg-blue-100 rounded-full p-4 w-fit mx-auto mb-6">
-                  <Brain className="h-12 w-12 text-blue-600" />
+                <div className="bg-gray-100 rounded-full p-6 w-fit mx-auto mb-6">
+                  <img
+                    src="https://s.tmimgcdn.com/scr/1200x750/352100/mindsol-logo-design-brain-ai-logo_352161-original.jpg"
+                    alt="TherapEase Logo"
+                    className="h-16 w-16 object-contain rounded-xl"
+                  />
                 </div>
                 <h3 className="font-baloo-bhai text-2xl font-bold text-gray-900 mb-4">
                   Start your wellness journey today
@@ -259,13 +304,22 @@ export default function Home() {
                   Take the first step towards better mental health with
                   TherapEase
                 </p>
-                <Link
-                  href="/chatbot"
-                  className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold inline-flex items-center gap-2"
-                >
-                  Begin Chat
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+                {userId ? (
+                  <Link
+                    href="/chatbot"
+                    className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold inline-flex items-center gap-2"
+                  >
+                    Go to Dashboard
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                ) : (
+                  <SignUpButton mode="modal">
+                    <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold inline-flex items-center gap-2">
+                      Begin Chat
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </SignUpButton>
+                )}
               </div>
             </div>
           </div>
@@ -277,8 +331,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="rounded-xl bg-blue-600 p-2">
-                <Brain className="h-6 w-6 text-white" />
+              <div className="rounded-xl bg-gray-100 p-2">
+                <img
+                  src="https://s.tmimgcdn.com/scr/1200x750/352100/mindsol-logo-design-brain-ai-logo_352161-original.jpg"
+                  alt="TherapEase Logo"
+                  className="h-8 w-8 object-contain rounded-lg"
+                />
               </div>
               <div>
                 <h3 className="font-baloo-bhai text-lg font-bold text-gray-900">
