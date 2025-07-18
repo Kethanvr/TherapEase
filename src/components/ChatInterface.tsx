@@ -1,7 +1,16 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Bot, User, Loader2 } from "lucide-react";
+import {
+  Send,
+  Bot,
+  User,
+  Loader2,
+  ThumbsUp,
+  ThumbsDown,
+  Copy,
+  RotateCcw,
+} from "lucide-react";
 
 interface Message {
   id: string;
@@ -13,13 +22,15 @@ interface Message {
     confidence: number;
     emotion: string;
   };
+  liked?: boolean;
+  disliked?: boolean;
 }
 
 export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Hello! I'm TherapEase, your mental health support companion. I'm here to listen, provide support, and help you navigate your feelings. How are you feeling today?",
+      text: "Hello! I'm TherapEase, your compassionate mental health companion. I'm here to listen, support, and help you navigate your feelings. 🌟\n\nBefore we begin, I'd like to know - what brings you here today? Are you looking for:\n• Someone to talk to about your feelings\n• Coping strategies for stress or anxiety\n• General mental wellness support\n• Something else entirely\n\nFeel free to share as much or as little as you're comfortable with. This is your safe space. 💙",
       isUser: false,
       timestamp: new Date(),
     },
@@ -34,6 +45,32 @@ export default function ChatInterface() {
 
   useEffect(() => {
     scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    // Load chat history from localStorage
+    const savedMessages = localStorage.getItem("therapease-chat-history");
+    if (savedMessages) {
+      try {
+        const parsed = JSON.parse(savedMessages);
+        setMessages(
+          parsed.map((msg: any) => ({
+            ...msg,
+            timestamp: new Date(msg.timestamp),
+          }))
+        );
+      } catch (error) {
+        console.error("Error loading chat history:", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save chat history to localStorage
+    if (messages.length > 1) {
+      // Don't save just the initial message
+      localStorage.setItem("therapease-chat-history", JSON.stringify(messages));
+    }
   }, [messages]);
 
   const handleSendMessage = async () => {
@@ -51,13 +88,15 @@ export default function ChatInterface() {
     setIsLoading(true);
 
     try {
-      // Call the API route for Gemini AI
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: inputText }),
+        body: JSON.stringify({
+          message: inputText,
+          chatHistory: messages.slice(-5), // Send last 5 messages for context
+        }),
       });
 
       if (!response.ok) {
@@ -80,7 +119,7 @@ export default function ChatInterface() {
 
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: "I'm sorry, I'm having trouble responding right now. Please try again in a moment, or consider reaching out to a mental health professional if you need immediate support.",
+        text: "I'm sorry, I'm having trouble responding right now. Please try again in a moment, or consider reaching out to a mental health professional if you need immediate support. 💙",
         isUser: false,
         timestamp: new Date(),
       };
@@ -98,6 +137,41 @@ export default function ChatInterface() {
     }
   };
 
+  const handleLike = (messageId: string) => {
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg.id === messageId
+          ? { ...msg, liked: !msg.liked, disliked: false }
+          : msg
+      )
+    );
+  };
+
+  const handleDislike = (messageId: string) => {
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg.id === messageId
+          ? { ...msg, disliked: !msg.disliked, liked: false }
+          : msg
+      )
+    );
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
+
+  const clearChat = () => {
+    const initialMessage = {
+      id: "1",
+      text: "Hello! I'm TherapEase, your compassionate mental health companion. I'm here to listen, support, and help you navigate your feelings. 🌟\n\nBefore we begin, I'd like to know - what brings you here today? Are you looking for:\n• Someone to talk to about your feelings\n• Coping strategies for stress or anxiety\n• General mental wellness support\n• Something else entirely\n\nFeel free to share as much or as little as you're comfortable with. This is your safe space. 💙",
+      isUser: false,
+      timestamp: new Date(),
+    };
+    setMessages([initialMessage]);
+    localStorage.removeItem("therapease-chat-history");
+  };
+
   const getSentimentColor = (sentiment: string) => {
     switch (sentiment) {
       case "positive":
@@ -111,8 +185,28 @@ export default function ChatInterface() {
 
   return (
     <div className="flex flex-col h-full max-w-4xl mx-auto">
+      {/* Chat Header */}
+      <div className="bg-white rounded-t-xl border border-gray-200 border-b-0 p-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
+            <Bot className="h-5 w-5 text-white" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-900">TherapEase AI</h3>
+            <p className="text-sm text-green-600">● Online</p>
+          </div>
+        </div>
+        <button
+          onClick={clearChat}
+          className="flex items-center gap-2 px-3 py-1 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-lg transition-colors"
+        >
+          <RotateCcw className="h-4 w-4" />
+          Clear Chat
+        </button>
+      </div>
+
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto space-y-4 p-4 bg-white rounded-xl border border-gray-200">
+      <div className="flex-1 overflow-y-auto space-y-4 p-4 bg-white border-l border-r border-gray-200">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -133,7 +227,9 @@ export default function ChatInterface() {
                   : "bg-gray-100 text-gray-900"
               }`}
             >
-              <p className="text-sm leading-relaxed">{message.text}</p>
+              <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                {message.text}
+              </p>
               <div className="flex items-center gap-2 mt-2">
                 <span
                   className={`text-xs ${
@@ -157,6 +253,38 @@ export default function ChatInterface() {
                   </span>
                 )}
               </div>
+
+              {/* Message Actions for bot messages */}
+              {!message.isUser && (
+                <div className="flex items-center gap-2 mt-2">
+                  <button
+                    onClick={() => handleLike(message.id)}
+                    className={`p-1 rounded transition-colors ${
+                      message.liked
+                        ? "text-green-600 bg-green-50"
+                        : "text-gray-400 hover:text-green-600"
+                    }`}
+                  >
+                    <ThumbsUp className="h-3 w-3" />
+                  </button>
+                  <button
+                    onClick={() => handleDislike(message.id)}
+                    className={`p-1 rounded transition-colors ${
+                      message.disliked
+                        ? "text-red-600 bg-red-50"
+                        : "text-gray-400 hover:text-red-600"
+                    }`}
+                  >
+                    <ThumbsDown className="h-3 w-3" />
+                  </button>
+                  <button
+                    onClick={() => copyToClipboard(message.text)}
+                    className="p-1 rounded text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <Copy className="h-3 w-3" />
+                  </button>
+                </div>
+              )}
             </div>
 
             {message.isUser && (
@@ -174,8 +302,8 @@ export default function ChatInterface() {
             </div>
             <div className="bg-gray-100 text-gray-900 px-4 py-3 rounded-2xl">
               <div className="flex items-center gap-2">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <span className="text-sm">Thinking...</span>
+                <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
+                <span className="text-sm">TherapEase is thinking...</span>
               </div>
             </div>
           </div>
@@ -185,14 +313,14 @@ export default function ChatInterface() {
       </div>
 
       {/* Input */}
-      <div className="mt-4 p-4 bg-white rounded-xl border border-gray-200">
+      <div className="bg-white rounded-b-xl border border-gray-200 border-t-0 p-4">
         <div className="flex gap-2">
           <textarea
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Share what's on your mind..."
-            className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
             rows={1}
             disabled={isLoading}
           />

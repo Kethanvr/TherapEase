@@ -59,8 +59,8 @@ export default function MoodTracker() {
   };
 
   const moodOptions = [
-    { value: "very-happy", label: "Very Happy", emoji: "😄", color: "#10B981" },
-    { value: "happy", label: "Happy", emoji: "😊", color: "#34D399" },
+    { value: "very-happy", label: "Very Happy", emoji: "😄", color: "#059669" },
+    { value: "happy", label: "Happy", emoji: "😊", color: "#10B981" },
     { value: "neutral", label: "Neutral", emoji: "😐", color: "#6B7280" },
     { value: "sad", label: "Sad", emoji: "😔", color: "#F59E0B" },
     { value: "very-sad", label: "Very Sad", emoji: "😢", color: "#EF4444" },
@@ -70,7 +70,7 @@ export default function MoodTracker() {
     <div className="max-w-6xl mx-auto space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200">
+        <div className="bg-white rounded-xl p-6 border border-gray-200">
           <div className="flex items-center gap-3 mb-2">
             <TrendingUp className="h-5 w-5 text-blue-600" />
             <h3 className="font-semibold text-gray-900">Average Mood</h3>
@@ -81,7 +81,7 @@ export default function MoodTracker() {
           <p className="text-sm text-gray-600">Last 7 days</p>
         </div>
 
-        <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200">
+        <div className="bg-white rounded-xl p-6 border border-gray-200">
           <div className="flex items-center gap-3 mb-2">
             <Calendar className="h-5 w-5 text-green-600" />
             <h3 className="font-semibold text-gray-900">Streak</h3>
@@ -92,7 +92,7 @@ export default function MoodTracker() {
           <p className="text-sm text-gray-600">Keep logging!</p>
         </div>
 
-        <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200">
+        <div className="bg-white rounded-xl p-6 border border-gray-200">
           <div className="flex items-center gap-3 mb-2">
             <Smile className="h-5 w-5 text-purple-600" />
             <h3 className="font-semibold text-gray-900">Trend</h3>
@@ -108,7 +108,7 @@ export default function MoodTracker() {
       <div className="flex justify-end">
         <button
           onClick={() => setShowAddMood(!showAddMood)}
-          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all duration-200"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Log Mood
@@ -117,7 +117,7 @@ export default function MoodTracker() {
 
       {/* Add Mood Form */}
       {showAddMood && (
-        <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200">
+        <div className="bg-white rounded-xl p-6 border border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             How are you feeling today?
           </h3>
@@ -145,7 +145,7 @@ export default function MoodTracker() {
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             placeholder="Any notes about your mood today? (optional)"
-            className="w-full px-4 py-2 bg-white border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             rows={3}
           />
 
@@ -153,13 +153,13 @@ export default function MoodTracker() {
             <button
               onClick={handleAddMood}
               disabled={!selectedMood}
-              className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Save Mood
             </button>
             <button
               onClick={() => setShowAddMood(false)}
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-colors"
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
             >
               Cancel
             </button>
@@ -168,7 +168,7 @@ export default function MoodTracker() {
       )}
 
       {/* Mood Chart */}
-      <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200">
+      <div className="bg-white rounded-xl p-6 border border-gray-200">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Mood Trends
         </h3>
@@ -188,9 +188,9 @@ export default function MoodTracker() {
               <Line
                 type="monotone"
                 dataKey="mood"
-                stroke="#8B5CF6"
+                stroke="#2563EB"
                 strokeWidth={3}
-                dot={{ fill: "#8B5CF6", strokeWidth: 2, r: 4 }}
+                dot={{ fill: "#2563EB", strokeWidth: 2, r: 4 }}
                 activeDot={{ r: 6 }}
               />
             </LineChart>
@@ -199,7 +199,7 @@ export default function MoodTracker() {
       </div>
 
       {/* Wellness Metrics */}
-      <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200">
+      <div className="bg-white rounded-xl p-6 border border-gray-200">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Wellness Metrics
         </h3>
@@ -216,16 +216,16 @@ export default function MoodTracker() {
                   borderRadius: "8px",
                 }}
               />
-              <Bar dataKey="energy" fill="#3B82F6" name="Energy" />
-              <Bar dataKey="anxiety" fill="#10B981" name="Calm" />
-              <Bar dataKey="sleep" fill="#8B5CF6" name="Sleep" />
+              <Bar dataKey="energy" fill="#2563EB" name="Energy" />
+              <Bar dataKey="anxiety" fill="#059669" name="Calm" />
+              <Bar dataKey="sleep" fill="#7C3AED" name="Sleep" />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Recent Entries */}
-      <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200">
+      <div className="bg-white rounded-xl p-6 border border-gray-200">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Recent Entries
         </h3>
@@ -233,7 +233,7 @@ export default function MoodTracker() {
           {moodEntries.slice(0, 5).map((entry) => (
             <div
               key={entry.id}
-              className="flex items-center gap-4 p-3 bg-white rounded-xl border border-gray-100"
+              className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg border border-gray-100"
             >
               <div className="text-2xl">{moodEmojis[entry.mood]}</div>
               <div className="flex-1">
