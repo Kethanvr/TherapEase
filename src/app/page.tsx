@@ -42,6 +42,12 @@ export default async function Home() {
               </div>
             </div>
             <div className="flex items-center gap-4">
+              <Link
+                href="/about"
+                className="text-gray-600 hover:text-gray-900 px-4 py-2 font-medium"
+              >
+                About Creator
+              </Link>
               {userId ? (
                 <div className="flex items-center gap-4">
                   <Link
