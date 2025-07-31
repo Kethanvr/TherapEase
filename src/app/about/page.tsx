@@ -11,15 +11,7 @@ import {
   Heart,
   MessageCircle,
   TrendingUp,
-  Calendar,
-  Pill,
-  Headphones,
-  Check,
-  Code,
-  Brain,
   Rocket,
-  BookOpen,
-  Users,
 } from "lucide-react";
 import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
@@ -32,7 +24,7 @@ const projects = [
     tech: ["React", "Supabase", "Gemini AI"],
     status: "Live",
     link: "https://mediscan.kethanvr.me",
-    icon: Pill,
+    icon: Heart,
     color: "from-green-500 to-teal-600",
   },
   {
@@ -92,7 +84,7 @@ const projects = [
     tech: ["Next.js", "TypeScript", "Clerk", "Gemini AI", "Tailwind CSS"],
     status: "Live",
     link: "https://github.com/Kethanvr/TherapEase",
-    icon: Brain,
+    icon: Rocket,
     color: "from-blue-500 to-purple-600",
   },
 ];
@@ -141,6 +133,32 @@ const education = [
 export default async function AboutPage() {
   const { userId } = await auth();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Kethan VR",
+    url: "https://kethanvr.me/about",
+    image: "https://kethanvr.me/profilepic.jpg",
+    sameAs: [
+      "https://github.com/Kethanvr",
+      "https://www.linkedin.com/in/kethanvr/",
+      "https://kethanvr.me",
+      "https://youtube.com/@kethanvr",
+      "https://x.com/VrKethan",
+    ],
+    jobTitle: "AI Developer & Full Stack Engineer",
+    worksFor: {
+      "@type": "Organization",
+      name: "TherapEase",
+    },
+    alumniOf: {
+      "@type": "CollegeOrUniversity",
+      name: "CMRIT Bangalore",
+    },
+    description:
+      "Kethan VR is an AI developer and full stack engineer from Bangalore, building GenAI, LLM, and web apps that scale. Explore projects, skills, and connect!",
+  };
+
   return (
     <>
       <Head>
@@ -176,6 +194,7 @@ export default async function AboutPage() {
         />
         <meta name="twitter:image" content="/profilepic.jpg" />
         <link rel="canonical" href="https://kethanvr.me/about" />
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Head>
       <div className="min-h-screen bg-white">
         {/* Header */}
@@ -248,7 +267,7 @@ export default async function AboutPage() {
                 </div>
               </div>
               <h1 className="font-baloo-bhai text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
-                Hey, I'm Kethan 👋
+                Hey, I&apos;m Kethan 👋
               </h1>
               <p className="text-xl sm:text-2xl text-blue-700 mb-4 font-semibold">
                 AI developer, full-stack builder, and professional tinkerer
@@ -256,7 +275,7 @@ export default async function AboutPage() {
               <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
                 I love building things that are actually useful (and sometimes
                 just for fun). If it involves GenAI, LLMs, or a cool new stack,
-                I’m probably already experimenting with it. My goal? Ship
+                I&apos;m probably already experimenting with it. My goal? Ship
                 real-world tech that helps people, not just another demo.
               </p>
               <div className="flex flex-wrap justify-center gap-3 mb-6">
@@ -342,7 +361,8 @@ export default async function AboutPage() {
                 🚀 Featured Projects
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Here’s what I’ve been building, breaking, and shipping lately:
+                Here&apos;s what I&apos;ve been building, breaking, and shipping
+                lately:
               </p>
             </div>
 
